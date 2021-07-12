@@ -1,8 +1,8 @@
-import { Subject, Subscriber } from 'rxjs'
 import { Observable } from 'rxjs'
 import API from '../components/api/Api'
 
 export const ApplianceService = {
+
     getAppliances: () => Observable.create((observer) => {
         API.get('appliances')
             .then((response) => {
@@ -15,7 +15,7 @@ export const ApplianceService = {
             });
     }),
     deleteAppliance: (id) => Observable.create((observer) => {
-        API.delete('appliance', id)
+        API.delete('appliance/' + id)
             .then((response) => {
                 observer.next(response.data);
                 observer.complete();
@@ -34,9 +34,8 @@ export const ApplianceService = {
                 observer.error(error.response);
             });
     }),
-    updateAppliance: (appliance) => Observable.create((observer) => {
-        console.log([appliance], "Appliance");
-        API.put('appliance', appliance)
+    updateAppliance: (id, appliance) => Observable.create((observer) => {
+        API.put('appliance/' + id, appliance)
             .then((response) => {
                 console.log([response], "PUT RESPONSE");
                 observer.next(response.data);

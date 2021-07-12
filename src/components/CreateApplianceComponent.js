@@ -3,6 +3,7 @@ import ApplianceService from '../services/ApplianceService'
 import { Subscription } from 'rxjs';
 import DatePicker from "react-datepicker";
 import Select from 'react-select';
+import moment from 'moment'
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -20,7 +21,7 @@ class CreateApplianceComponent extends Component<Subscription> {
             brand: '',
             model: '',
             status: '',
-            dateBought: '',
+            dateBought: new Date(),
         }
         this.options = [
             { value: 'old', label: 'old' },
@@ -55,46 +56,56 @@ class CreateApplianceComponent extends Component<Subscription> {
                         brand: appliance.brand,
                         model: appliance.model,
                         status: appliance.status,
-                        dateBought: appliance.dateBought
+                        dateBought: Date.parse(appliance.dateBought)
                     });
                 }
             });
         }
     }
+
     saveOrUpdateAppliance = (e) => {
         e.preventDefault();
         let appliance = {};
         appliance = {
-            serialNumber: appliance.serialNumber,
-            brand: appliance.brand,
-            model: appliance.model,
-            status: appliance.status,
-            dateBought: appliance.dateBought
+            serialNumber: this.state.serialNumber,
+            brand: this.state.brand,
+            model: this.state.model,
+            status: this.state.status,
+            dateBought: this.state.dateBought
         };
         console.log('appliance => ' + JSON.stringify(appliance));
 
 
         if (this.state.id === '_add') {
+            console.log([appliance], "POST DATA");
             this.subscription = ApplianceService.createAppliance(appliance).subscribe(response => {
                 if (response) {
+                    console.log([response], "")
+                    this.props.history.push('/appliances');
+                } else {
                     this.props.history.push('/appliances');
                 }
-            });
+            },
+                error => {
+                    console.log([error], "Error Message");
+                });
 
         } else {
             appliance = {
-                id: appliance.id,
-                serialNumber: appliance.serialNumber,
-                brand: appliance.brand,
-                model: appliance.model,
-                status: appliance.status,
-                dateBought: appliance.dateBought
+                id: this.state.id,
+                serialNumber: this.state.serialNumber,
+                brand: this.state.brand,
+                model: this.state.model,
+                status: this.state.status,
+                dateBought: this.state.dateBought
             };
 
-            this.subscription = ApplianceService.updateAppliance(appliance).subscribe(response => {
+            this.subscription = ApplianceService.updateAppliance(this.state.id, appliance).subscribe(response => {
                 if (response) {
                     this.props.history.push('/appliances');
                 }
+            }, error => {
+                console.log([error], "Error Update");
             });
         }
     }
@@ -112,13 +123,16 @@ class CreateApplianceComponent extends Component<Subscription> {
     }
 
     changeStatusHandler = (status) => {
-        this.setState({ status: status });
+        this.setState({ status: status.value });
     }
 
     changeDateHandler = (date) => {
         this.setState({ dateBought: date });
     }
 
+    getFormatDate(date: any) {
+        return moment(date).format('YYYY-MM-DD');
+    }
 
     cancel() {
         this.props.history.push('/appliances');
