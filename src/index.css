@@ -11,6 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Custom Style */
 .updateIcon{
   color: aqua;
 }
@@ -31,4 +33,8 @@ code {
 }
 .updateIcon:active{
   color:#ff1493;
+}
+
+#react-confirm-alert{
+  z-index: 100;
 }

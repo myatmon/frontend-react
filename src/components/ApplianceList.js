@@ -4,6 +4,8 @@ import ApplianceService from '../services/ApplianceService';
 import MUIDataTable from 'mui-datatables';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 class ApplianceList extends Component<Subscription> {
 
@@ -44,6 +46,36 @@ class ApplianceList extends Component<Subscription> {
         },
         );
     }
+
+    delConfirm = (id: any) => {
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='custom-ui'>
+                        <h4 className="title">Are you sure?</h4>
+                        <p>You want to delete this file?</p>
+                        <div className="row">
+                            <div className="col">
+                                <button className="btn btn-primary" onClick={onClose}>No</button>
+
+                            </div>
+                            <div className="col">
+                                <button className="btn btn-danger"
+                                    onClick={() => {
+                                        this.deleteAppliance(id);
+                                        onClose();
+                                    }}
+                                >
+                                    Yes, Delete it!
+                                 </button>
+
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+        });
+    };
 
     addAppliance() {
         this.props.history.push('/add-appliance/_add');
@@ -103,7 +135,7 @@ class ApplianceList extends Component<Subscription> {
             options: {
                 customBodyRender: (value, tableMeta) => {
                     return (
-                        <DeleteIcon fontSize="small" className="deleteIcon" aria-label="delete" onClick={() => this.deleteAppliance(tableMeta.rowData['0'])} />
+                        <DeleteIcon fontSize="small" className="deleteIcon" aria-label="delete" onClick={() => this.delConfirm(tableMeta.rowData['0'])} />
                     );
                 }
             }
