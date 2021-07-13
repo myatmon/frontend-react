@@ -7,7 +7,6 @@ export const ApplianceService = {
         API.get('appliances')
             .then((response) => {
                 observer.next(response.data);
-                console.log([response.data], "All Appliance");
                 observer.complete();
             })
             .catch((error) => {
@@ -41,7 +40,6 @@ export const ApplianceService = {
                 observer.complete();
             })
             .catch((error) => {
-                console.error([error], "Error");
                 observer.error(error.response);
             });
     }),

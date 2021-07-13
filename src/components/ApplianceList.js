@@ -147,11 +147,6 @@ class ApplianceList extends Component<Subscription> {
         console.log([this.state.appliances], "TABLE");
         return (
             <div>
-                <h2 className="text-center">Appliances List</h2>
-                <div className="row">
-                    <button className="btn btn-primary" onClick={this.addAppliance}> Add Appliance</button>
-                </div>
-                <br></br>
                 <MUIDataTable
                     title={"Appliance list"}
                     data={this.state.appliances}

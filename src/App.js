@@ -7,12 +7,14 @@ import CreateApplianceComponent from './components/CreateApplianceComponent';
 import ViewApplianceComponent from './components/ViewApplianceComponent';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Header from './components/Header';
 
 function App() {
   return (
     <div>
       <Router>
         <div className="container">
+          <Header />
           <ToastContainer />
           <Switch>
             <Route path="/" exact component={ApplianceList}></Route>

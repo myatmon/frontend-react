@@ -12,7 +12,6 @@ import "react-datepicker/dist/react-datepicker.css";
 toast.configure({
     autoClose: 2000,
     draggable: false,
-    //etc you get the idea
 });
 
 class CreateApplianceComponent extends Component<Subscription> {
