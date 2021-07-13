@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { Subscription } from 'rxjs';
 import ApplianceService from '../services/ApplianceService';
+import MUIDataTable from 'mui-datatables';
 
 class ApplianceList extends Component<Subscription> {
 
     subscription: Subscription = new Subscription();
+    columns: []
     constructor(props) {
         super(props)
 
         this.state = {
             appliances: []
         }
+        this.columns = this.getColumns();
         this.addAppliance = this.addAppliance.bind(this);
         this.editAppliance = this.editAppliance.bind(this);
         this.deleteAppliance = this.deleteAppliance.bind(this);
@@ -43,6 +46,47 @@ class ApplianceList extends Component<Subscription> {
     addAppliance() {
         this.props.history.push('/add-appliance/_add');
     }
+    getColumns() {
+        return [{
+            name: "id",
+            label: "ID",
+            options: {
+                sort: false,
+                display: false
+
+            }
+        }, {
+            name: "serialNumber",
+            label: "Serial Number",
+            options: {
+                sort: false,
+            }
+        }, {
+            name: "brand",
+            label: "Brand",
+            options: {
+                sort: false,
+            }
+        }, {
+            name: "model",
+            label: "Model",
+            options: {
+                sort: false,
+            }
+        }, {
+            name: "status",
+            label: "Status",
+            options: {
+                sort: false,
+            }
+        }, {
+            name: "dateBought",
+            label: "Date Bought",
+            options: {
+                sort: false,
+            }
+        }];
+    }
 
     render() {
         console.log([this.state.appliances], "TABLE");
@@ -53,40 +97,14 @@ class ApplianceList extends Component<Subscription> {
                     <button className="btn btn-primary" onClick={this.addAppliance}> Add Appliance</button>
                 </div>
                 <br></br>
-                <div className="row">
-                    <table className="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th> Serial Number</th>
-                                <th> Brand</th>
-                                <th> Model</th>
-                                <th> Status</th>
-                                <th> Date Bought</th>
-                                <th> Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                this.state.appliances.map(
-                                    appliance =>
-                                        <tr key={appliance.id}>
-                                            <td> {appliance.serialNumber} </td>
-                                            <td> {appliance.brand}</td>
-                                            <td> {appliance.model}</td>
-                                            <td> {appliance.status}</td>
-                                            <td> {appliance.dateBought}</td>
-                                            <td>
-                                                <button onClick={() => this.editAppliance(appliance.id)} className="btn btn-info">Update </button>
-                                                <button style={{ marginLeft: "10px" }} onClick={() => this.deleteAppliance(appliance.id)} className="btn btn-danger">Delete </button>
-                                            </td>
-                                        </tr>
-                                )
-                            }
-                        </tbody>
-                    </table>
-
-                </div>
-
+                <MUIDataTable
+                    title={"Appliance list"}
+                    data={this.state.appliances}
+                    columns={this.columns}
+                    options={{
+                        selectableRows: false
+                    }}
+                />
             </div>
         )
     }
