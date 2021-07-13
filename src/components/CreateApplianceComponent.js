@@ -24,6 +24,7 @@ class CreateApplianceComponent extends Component<Subscription> {
             dateBought: new Date(),
         }
         this.options = [
+            { value: 'new', label: 'new' },
             { value: 'old', label: 'old' },
             { value: 'unused', label: 'unused' },
             { value: 'sold', label: 'sold' }
@@ -174,8 +175,13 @@ class CreateApplianceComponent extends Component<Subscription> {
                                     </div>
                                     <div className="form-group">
                                         <label> Status: </label>
-                                        <Select options={this.options} placeholder="Status" name="status"
-                                            value={this.state.status} onChange={(status) => this.changeStatusHandler(status)} />
+                                        <Select value={
+                                            this.options.filter(option =>
+                                                option.label === this.state.status)
+                                        }
+                                            onChange={(status) => this.changeStatusHandler(status)}
+                                            options={this.options}
+                                            placeholder="Status" />
                                     </div>
                                     <div className="form-group">
                                         <label> Date Bought: </label>
