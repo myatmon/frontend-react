@@ -29,6 +29,7 @@ class CreateApplianceComponent extends Component<Subscription> {
             model: '',
             status: '',
             dateBought: new Date(),
+            title: '',
         }
         this.options = [
             { value: 'new', label: 'new' },
@@ -47,12 +48,13 @@ class CreateApplianceComponent extends Component<Subscription> {
     componentDidMount() {
 
         if (this.state.id === '_add') {
+            this.setState({ title: 'Save' })
             return
         } else {
+            this.setState({ title: 'Update' })
             this.isUpdate = true;
             this.subscription = ApplianceService.getApplianceById(this.state.id).subscribe(response => {
                 if (response) {
-                    console.log([response], "Update");
                     let appliance = {};
                     appliance = response;
                     this.setState({
@@ -201,7 +203,7 @@ class CreateApplianceComponent extends Component<Subscription> {
                                         </div>
                                     </div>
 
-                                    <button className="btn btn-success" onClick={this.saveOrUpdateAppliance}>Save</button>
+                                    <button className="btn btn-success" onClick={this.saveOrUpdateAppliance}>{this.state.title}</button>
                                     <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px" }}>Cancel</button>
                                 </form>
                             </div>

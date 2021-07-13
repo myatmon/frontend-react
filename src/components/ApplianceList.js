@@ -48,54 +48,36 @@ class ApplianceList extends Component<Subscription> {
     }
 
     delConfirm = (status: any, id: any) => {
-        if (status === 'new') {
-            confirmAlert({
-                customUI: ({ onClose }) => {
-                    return (
-                        <div className='custom-ui'>
-                            <h4 className="title">This is new item</h4>
-                            <p>You cannot allow to delete it</p>
-                            <div className="row">
-                                <div className="col">
-                                    <button className="btn btn-primary" onClick={onClose}>OK</button>
-
-                                </div>
-                            </div>
-                        </div>
-                    );
-                }
-            });
+        let message = "You want to delete this appliance?";
+        if (status === 'new' || status === '') {
+            message = "This is new appliance, do you really want to delete it?";
         }
-        else {
-            confirmAlert({
-                customUI: ({ onClose }) => {
-                    return (
-                        <div className='custom-ui'>
-                            <h4 className="title">Are you sure?</h4>
-                            <p>You want to delete this file?</p>
-                            <div className="row">
-                                <div className="col">
-                                    <button className="btn btn-primary" onClick={onClose}>No</button>
-
-                                </div>
-                                <div className="col">
-                                    <button className="btn btn-danger"
-                                        onClick={() => {
-                                            this.deleteAppliance(id);
-                                            onClose();
-                                        }}
-                                    >
-                                        Yes, Delete it!
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='custom-ui'>
+                        <h4 className="title">Are you sure?</h4>
+                        <p>{message}</p>
+                        <div className="row">
+                            <div className="col-4">
+                                <button className="btn btn-primary" onClick={onClose}>No</button>
+                            </div>
+                            <div className="col">
+                                <button className="btn btn-danger"
+                                    onClick={() => {
+                                        this.deleteAppliance(id);
+                                        onClose();
+                                    }}
+                                >
+                                    Yes, Delete it!
                                  </button>
 
-                                </div>
                             </div>
                         </div>
-                    );
-                }
-            });
-
-        }
+                    </div>
+                );
+            }
+        });
     };
 
     addAppliance() {
