@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Subscription } from 'rxjs';
 import ApplianceService from '../services/ApplianceService';
 import MUIDataTable from 'mui-datatables';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 class ApplianceList extends Component<Subscription> {
 
@@ -84,6 +86,26 @@ class ApplianceList extends Component<Subscription> {
             label: "Date Bought",
             options: {
                 sort: false,
+            }
+        },
+        {
+            name: "Edit",
+            options: {
+                customBodyRender: (value, tableMeta) => {
+                    return (
+                        <EditIcon color="primary" className="updateIcon" aria-label="edit" onClick={() => this.editAppliance(tableMeta.rowData['0'])} />
+                    );
+                }
+            }
+        },
+        {
+            name: "Delete ",
+            options: {
+                customBodyRender: (value, tableMeta) => {
+                    return (
+                        <DeleteIcon fontSize="small" className="deleteIcon" aria-label="delete" onClick={() => this.deleteAppliance(tableMeta.rowData['0'])} />
+                    );
+                }
             }
         }];
     }

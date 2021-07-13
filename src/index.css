@@ -11,3 +11,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.updateIcon{
+  color: aqua;
+}
+.updateIcon:active{
+  color: darkcyan;
+}
+.updateIcon:hover{
+  color: #7fff00;
+}
+.deleteIcon{
+  color:crimson
+}
+.deleteIcon{
+  color:#8b0000;
+}
+.deleteIcon:hover{
+  color:#dc143c;
+}
+.updateIcon:active{
+  color:#ff1493;
+}
