@@ -19,6 +19,7 @@ class CreateApplianceComponent extends Component<Subscription> {
 
     subscription: Subscription = new Subscription();
     options: []
+    isUpdate: false;
     constructor(props) {
         super(props)
         console.log([this.props.match.params.id], "create id" + this.props.match.params.id);
@@ -44,16 +45,12 @@ class CreateApplianceComponent extends Component<Subscription> {
         this.saveOrUpdateAppliance = this.saveOrUpdateAppliance.bind(this);
     }
 
-
-
-
-    // step 3
     componentDidMount() {
 
-        // step 4
         if (this.state.id === '_add') {
             return
         } else {
+            this.isUpdate = true;
             this.subscription = ApplianceService.getApplianceById(this.state.id).subscribe(response => {
                 if (response) {
                     console.log([response], "Update");
@@ -173,17 +170,17 @@ class CreateApplianceComponent extends Component<Subscription> {
                                 <form>
                                     <div className="form-group">
                                         <label> Serial Number: </label>
-                                        <input placeholder="Serial Number" name="serialNumber" className="form-control"
+                                        <input placeholder="Serial Number" disabled={this.isUpdate} name="serialNumber" className="form-control"
                                             value={this.state.serialNumber} onChange={this.changeSerialNumberHandler} />
                                     </div>
                                     <div className="form-group">
                                         <label> Brand: </label>
-                                        <input placeholder="brand" name="brand" className="form-control"
+                                        <input placeholder="brand" disabled={this.isUpdate} name="brand" className="form-control"
                                             value={this.state.brand} onChange={this.changeBrandHandler} />
                                     </div>
                                     <div className="form-group">
                                         <label> Model: </label>
-                                        <input placeholder="Model" name="model" className="form-control"
+                                        <input placeholder="Model" disabled={this.isUpdate} name="model" className="form-control"
                                             value={this.state.model} onChange={this.changeModelHandler} />
                                     </div>
                                     <div className="form-group">
