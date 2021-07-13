@@ -4,8 +4,16 @@ import { Subscription } from 'rxjs';
 import DatePicker from "react-datepicker";
 import Select from 'react-select';
 import moment from 'moment'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import "react-datepicker/dist/react-datepicker.css";
+
+toast.configure({
+    autoClose: 2000,
+    draggable: false,
+    //etc you get the idea
+});
 
 class CreateApplianceComponent extends Component<Subscription> {
 
@@ -15,7 +23,6 @@ class CreateApplianceComponent extends Component<Subscription> {
         super(props)
         console.log([this.props.match.params.id], "create id" + this.props.match.params.id);
         this.state = {
-            // step 2
             id: this.props.match.params.id,
             serialNumber: '',
             brand: '',
@@ -74,21 +81,19 @@ class CreateApplianceComponent extends Component<Subscription> {
             status: this.state.status,
             dateBought: this.state.dateBought
         };
-        console.log('appliance => ' + JSON.stringify(appliance));
 
 
         if (this.state.id === '_add') {
-            console.log([appliance], "POST DATA");
             this.subscription = ApplianceService.createAppliance(appliance).subscribe(response => {
                 if (response) {
-                    console.log([response], "")
+                    this.notify("Create success");
                     this.props.history.push('/appliances');
                 } else {
                     this.props.history.push('/appliances');
                 }
             },
                 error => {
-                    console.log([error], "Error Message");
+                    this.notifyError("Oop, something wrong!");
                 });
 
         } else {
@@ -103,13 +108,21 @@ class CreateApplianceComponent extends Component<Subscription> {
 
             this.subscription = ApplianceService.updateAppliance(this.state.id, appliance).subscribe(response => {
                 if (response) {
+                    this.notify("Update success");
                     this.props.history.push('/appliances');
                 }
             }, error => {
+                this.notifyError("Oop, something wrong!");
                 console.log([error], "Error Update");
             });
         }
     }
+
+
+
+    notify = (message: any) => toast.success(message);
+
+    notifyError = (message: any) => toast.error(message);
 
     changeSerialNumberHandler = (event) => {
         this.setState({ serialNumber: event.target.value });

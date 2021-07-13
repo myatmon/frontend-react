@@ -134,8 +134,9 @@ class ApplianceList extends Component<Subscription> {
             name: "Delete ",
             options: {
                 customBodyRender: (value, tableMeta) => {
+
                     return (
-                        <DeleteIcon fontSize="small" className="deleteIcon" aria-label="delete" onClick={() => this.delConfirm(tableMeta.rowData['0'])} />
+                        <DeleteIcon fontSize="small" disabled={tableMeta.rowData['4'] !== 'new'} className="deleteIcon" aria-label="delete" onClick={() => this.delConfirm(tableMeta.rowData['0'])} />
                     );
                 }
             }

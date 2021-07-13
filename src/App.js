@@ -5,12 +5,15 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import ApplianceList from './components/ApplianceList';
 import CreateApplianceComponent from './components/CreateApplianceComponent';
 import ViewApplianceComponent from './components/ViewApplianceComponent';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <div>
       <Router>
         <div className="container">
+          <ToastContainer />
           <Switch>
             <Route path="/" exact component={ApplianceList}></Route>
             <Route path="/appliances" component={ApplianceList}></Route>
