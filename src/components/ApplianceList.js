@@ -47,34 +47,55 @@ class ApplianceList extends Component<Subscription> {
         );
     }
 
-    delConfirm = (id: any) => {
-        confirmAlert({
-            customUI: ({ onClose }) => {
-                return (
-                    <div className='custom-ui'>
-                        <h4 className="title">Are you sure?</h4>
-                        <p>You want to delete this file?</p>
-                        <div className="row">
-                            <div className="col">
-                                <button className="btn btn-primary" onClick={onClose}>No</button>
+    delConfirm = (status: any, id: any) => {
+        if (status === 'new') {
+            confirmAlert({
+                customUI: ({ onClose }) => {
+                    return (
+                        <div className='custom-ui'>
+                            <h4 className="title">This is new item</h4>
+                            <p>You cannot allow to delete it</p>
+                            <div className="row">
+                                <div className="col">
+                                    <button className="btn btn-primary" onClick={onClose}>OK</button>
 
-                            </div>
-                            <div className="col">
-                                <button className="btn btn-danger"
-                                    onClick={() => {
-                                        this.deleteAppliance(id);
-                                        onClose();
-                                    }}
-                                >
-                                    Yes, Delete it!
-                                 </button>
-
+                                </div>
                             </div>
                         </div>
-                    </div>
-                );
-            }
-        });
+                    );
+                }
+            });
+        }
+        else {
+            confirmAlert({
+                customUI: ({ onClose }) => {
+                    return (
+                        <div className='custom-ui'>
+                            <h4 className="title">Are you sure?</h4>
+                            <p>You want to delete this file?</p>
+                            <div className="row">
+                                <div className="col">
+                                    <button className="btn btn-primary" onClick={onClose}>No</button>
+
+                                </div>
+                                <div className="col">
+                                    <button className="btn btn-danger"
+                                        onClick={() => {
+                                            this.deleteAppliance(id);
+                                            onClose();
+                                        }}
+                                    >
+                                        Yes, Delete it!
+                                 </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    );
+                }
+            });
+
+        }
     };
 
     addAppliance() {
@@ -136,7 +157,7 @@ class ApplianceList extends Component<Subscription> {
                 customBodyRender: (value, tableMeta) => {
 
                     return (
-                        <DeleteIcon fontSize="small" disabled={tableMeta.rowData['4'] !== 'new'} className="deleteIcon" aria-label="delete" onClick={() => this.delConfirm(tableMeta.rowData['0'])} />
+                        <DeleteIcon fontSize="small" disabled={tableMeta.rowData['4'] !== 'new'} className="deleteIcon" aria-label="delete" onClick={() => this.delConfirm(tableMeta.rowData['4'], tableMeta.rowData['0'])} />
                     );
                 }
             }
@@ -144,7 +165,6 @@ class ApplianceList extends Component<Subscription> {
     }
 
     render() {
-        console.log([this.state.appliances], "TABLE");
         return (
             <div>
                 <MUIDataTable
